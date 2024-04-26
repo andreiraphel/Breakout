@@ -1,14 +1,34 @@
-[gd_scene load_steps=3 format=3 uid="uid://dv44lxbmulk16"]
+[gd_scene load_steps=11 format=3 uid="uid://dv44lxbmulk16"]
 
+[ext_resource type="Script" path="res://main.gd" id="1_hsous"]
 [ext_resource type="Script" path="res://Player.gd" id="1_trjbq"]
+[ext_resource type="Script" path="res://Ball.gd" id="3_18fpr"]
+[ext_resource type="Script" path="res://Red.gd" id="3_p12y1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1o630"]
-size = Vector2(150, 16)
+size = Vector2(153, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_58lkb"]
+size = Vector2(150, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kxvlv"]
+size = Vector2(5, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c5ann"]
+size = Vector2(7, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qj88r"]
+size = Vector2(100, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_or8fe"]
+size = Vector2(100, 20)
 
 [node name="main" type="Node2D"]
+script = ExtResource("1_hsous")
 
 [node name="Player" type="CharacterBody2D" parent="."]
 script = ExtResource("1_trjbq")
+metadata/_edit_group_ = true
 
 [node name="ColorRect" type="ColorRect" parent="Player"]
 anchors_preset = 8
@@ -24,5 +44,70 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2(575, 608)
+position = Vector2(575.5, 608)
 shape = SubResource("RectangleShape2D_1o630")
+
+[node name="Area2D" type="Area2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Area2D"]
+position = Vector2(575, 607.5)
+shape = SubResource("RectangleShape2D_58lkb")
+
+[node name="Ball" type="RigidBody2D" parent="."]
+position = Vector2(-129, -16)
+script = ExtResource("3_18fpr")
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Ball"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 572.0
+offset_top = 595.0
+offset_right = 577.0
+offset_bottom = 600.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(2.5, 2.5)
+
+[node name="Area2D" type="Area2D" parent="Ball"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball/Area2D"]
+position = Vector2(574.5, 597.5)
+shape = SubResource("RectangleShape2D_kxvlv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
+position = Vector2(574.5, 597.5)
+shape = SubResource("RectangleShape2D_c5ann")
+
+[node name="Red" type="StaticBody2D" parent="."]
+script = ExtResource("3_p12y1")
+
+[node name="ColorRect" type="ColorRect" parent="Red"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 110.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(50, 10)
+color = Color(0.670588, 0, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Red"]
+position = Vector2(60, 20)
+shape = SubResource("RectangleShape2D_qj88r")
+
+[node name="Area2D" type="Area2D" parent="Red"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Red/Area2D"]
+position = Vector2(60, 20)
+shape = SubResource("RectangleShape2D_or8fe")
+
+[connection signal="body_entered" from="Red/Area2D" to="Red" method="_on_area_2d_body_entered"]
